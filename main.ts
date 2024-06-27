@@ -6,9 +6,6 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
         Steve.ay = 300
     }
 })
-scene.onOverlapTile(SpriteKind.Projectile, assets.tile`myTile`, function (sprite, location) {
-    tiles.setTileAt(tiles.getTileLocation(0, 0), assets.tile`transparency16`)
-})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
     Steve,
@@ -167,45 +164,45 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
             . . . . . b b . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
-            `, Steve, 50, 0)
+            `, Steve, 100, 0)
     } else if (shootDirection == 2) {
         projectile = sprites.createProjectileFromSprite(img`
+            . . . b . . . . . . . . . . . . 
+            . . . b . . . . . . . . . . . . 
+            . . . b . . . . . . . . . . . . 
+            . . . b . . . . . . . . . . . . 
+            . . . b . . . . . . . . . . . . 
+            . . b d . . . . . . . . . . . . 
+            . . b d d . . . . . . . . . . . 
+            . . . b d . . . . . . . . . . . 
+            . . . . d d . . . . . . . . . . 
+            . . . . b d d . . . . . . . . . 
+            . . . . . b d d . . . . . . . . 
+            . . . . . . b d d d b b b b . . 
+            . . . . . . . b b b b . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . b . . . . 
-            . . . . . . . . . . . b . . . . 
-            . . . . . . . . . . . b . . . . 
-            . . . . . . . . . . . b b . . . 
-            . . . . . . . . . . . d b . . . 
-            . . . . . . . . . . . d b . . . 
-            . . . . . . . . . . d d b . . . 
-            . . . . . . . . . d d b . . . . 
-            . . . . . . . . d d b . . . . . 
-            . . . . . . d d d b . . . . . . 
-            b b b b b d d b . . . . . . . . 
-            . . . . . b b . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `, Steve, -50, 0)
+            `, Steve, -100, 0)
     } else if (shootDirection == 3) {
         projectile = sprites.createProjectileFromSprite(img`
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . b . . . . 
-            . . . . . . . . . . . b . . . . 
-            . . . . . . . . . . . b . . . . 
-            . . . . . . . . . . . b b . . . 
-            . . . . . . . . . . . d b . . . 
-            . . . . . . . . . . . d b . . . 
-            . . . . . . . . . . d d b . . . 
-            . . . . . . . . . d d b . . . . 
-            . . . . . . . . d d b . . . . . 
-            . . . . . . d d d b . . . . . . 
-            b b b b b d d b . . . . . . . . 
-            . . . . . b b . . . . . . . . . 
+            . . . . . . . . . b b . . . . . 
+            . . . . . . . . b d d b b b b b 
+            . . . . . . b d d d . . . . . . 
+            . . . . . b d d . . . . . . . . 
+            . . . . b d d . . . . . . . . . 
+            . . . b d d . . . . . . . . . . 
+            . . . b d . . . . . . . . . . . 
+            . . . b d . . . . . . . . . . . 
+            . . . b b . . . . . . . . . . . 
+            . . . . b . . . . . . . . . . . 
+            . . . . b . . . . . . . . . . . 
+            . . . . b . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
-            `, Steve, 0, -50)
+            `, Steve, 0, -100)
     } else if (shootDirection == 4) {
         projectile = sprites.createProjectileFromSprite(img`
             . . . . . . . . . . . . . . . . 
@@ -224,7 +221,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
             . . . . . b b . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
-            `, Steve, 0, 50)
+            `, Steve, 0, 100)
     } else {
     	
     }
@@ -234,12 +231,32 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     shootDirection = 2
 })
+controller.B.onEvent(ControllerButtonEvent.Repeated, function () {
+    if (tiles.tileAtLocationEquals(location, assets.tile`transparency16`)) {
+        tiles.setTileAt(location, assets.tile`myTile0`)
+        tiles.setWallAt(location, true)
+    }
+})
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     shootDirection = 1
+})
+scene.onOverlapTile(SpriteKind.Projectile, assets.tile`myTile0`, function (sprite, location) {
+    info.changeScoreBy(1)
+    tiles.setTileAt(location, assets.tile`transparency16`)
 })
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     shootDirection = 4
 })
+scene.onHitWall(SpriteKind.Projectile, function (sprite, location) {
+    info.changeScoreBy(1)
+    tiles.setTileAt(location, assets.tile`transparency16`)
+    tiles.setWallAt(location, false)
+})
+scene.onOverlapTile(SpriteKind.Projectile, assets.tile`myTile5`, function (sprite, location) {
+    info.changeScoreBy(1)
+    tiles.setTileAt(location, assets.tile`transparency16`)
+})
+let location: tiles.Location = null
 let projectile: Sprite = null
 let shootDirection = 0
 let Steve: Sprite = null
@@ -404,3 +421,6 @@ tiles.setCurrentTilemap(tilemap`level2`)
 scene.cameraFollowSprite(Steve)
 Steve.ay = 300
 shootDirection = 1
+forever(function () {
+    location = tiles.getTileLocation(tiles.locationXY(tiles.locationOfSprite(Steve), tiles.XY.column), tiles.locationXY(tiles.locationOfSprite(Steve), tiles.XY.row) - -1)
+})
