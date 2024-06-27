@@ -8,7 +8,6 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 scene.onOverlapTile(SpriteKind.Projectile, assets.tile`myTile`, function (sprite, location) {
     tiles.setTileAt(tiles.getTileLocation(0, 0), assets.tile`transparency16`)
-    info.changeScoreBy(1)
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
