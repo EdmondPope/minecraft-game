@@ -1,3 +1,6 @@
+scene.onOverlapTile(SpriteKind.Projectile, assets.tile`myTile13`, function (sprite, location) {
+	
+})
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     shootDirection = 3
     if (Steve.vy == 0) {
@@ -6,88 +9,199 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
         Steve.ay = 300
     }
 })
+controller.combos.attachCombo("b b", function () {
+    if (tiles.tileAtLocationEquals(location, assets.tile`transparency16`) || tiles.tileAtLocationEquals(location, assets.tile`myTile8`)) {
+        tiles.setTileAt(location, assets.tile`myTile13`)
+        tiles.setWallAt(location, true)
+    }
+})
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     if (tiles.tileAtLocationEquals(location, assets.tile`transparency16`)) {
-        tiles.setTileAt(location, assets.tile`myTile0`)
+        tiles.setTileAt(location, assets.tile`myTile8`)
         tiles.setWallAt(location, true)
     }
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    animation.runImageAnimation(
+    Steve,
+    [img`
+        ....eeeeeeee....
+        ....eeeeeeee....
+        ....eddeeeee....
+        ....eddddddd....
+        ....d1fddf1d....
+        ....dddddddd....
+        ....ddeddedd....
+        ....ddeeeedd....
+        6666666666666666
+        6666666666666666
+        dddd66666666dddd
+        dddd66666666dddd
+        dddd66666666dddd
+        dddd66666666dddd
+        dddd66666666dddd
+        dddd66666666dddd
+        dddd66666666dddd
+        dddd66666666dddd
+        dddd66666666dddd
+        bbbb66666666bbbb
+        ....86666666....
+        ....88666666....
+        ....88888888....
+        ....88888888....
+        ....88888888....
+        ....88888888....
+        ....88888888....
+        ....88888888....
+        ....88888888....
+        ....88888888....
+        ....bccbbccb....
+        ....bbbbbbbb....
+        `,img`
+        ....eeeeeeee....
+        ....eeeeeeee....
+        ....eddeeeee....
+        ....eddddddd....
+        ....d1fddf1d....
+        ....dddddddd....
+        ....ddeddedd....
+        ....ddeeeedd....
+        6666666666666666
+        6666666666666666
+        dddd66666666dddd
+        ddddd6666666dddd
+        dddddd666666dddd
+        .dddddd66666dddd
+        ..dddddd6666dddd
+        ...ddddddb66dddd
+        ....dddddb66dddd
+        ....6dddb666dddd
+        ....66bb6666dddd
+        ....66666666bbbb
+        ....86666666....
+        ....88666666....
+        ....88888888....
+        ....88888888....
+        ....88888888....
+        ....88888888....
+        ....88888888....
+        ....88888888....
+        ....88888888....
+        ....88888888....
+        ....bccbbccb....
+        ....bbbbbbbb....
+        `,img`
+        ....eeeeeeee....
+        ....eeeeeeee....
+        ....eddeeeee....
+        ....eddddddd....
+        ....d1fddf1d....
+        ....dddddddd....
+        ....ddeddedd....
+        ....ddeeeedd....
+        6666666666666666
+        6666666666666666
+        dddd66666666dddd
+        dddd66666666dddd
+        dddd66666666dddd
+        dddd66666666dddd
+        dddd66666666dddd
+        dddd66666666dddd
+        dddd66666666dddd
+        dddd66666666dddd
+        dddd66666666dddd
+        bbbb66666666bbbb
+        ....86666666....
+        ....88666666....
+        ....88888888....
+        ....88888888....
+        ....88888888....
+        ....88888888....
+        ....88888888....
+        ....88888888....
+        ....88888888....
+        ....88888888....
+        ....bccbbccb....
+        ....bbbbbbbb....
+        `],
+    100,
+    false
+    )
     if (shootDirection == 1) {
         projectile = sprites.createProjectileFromSprite(img`
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
+            1 . . . . . . . . . . . . . . 1 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            1 . . . . . . . . . . . . . . 1 
             `, Steve, 100, 0)
     } else if (shootDirection == 2) {
         projectile = sprites.createProjectileFromSprite(img`
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
+            1 . . . . . . . . . . . . . . 1 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            1 . . . . . . . . . . . . . . 1 
             `, Steve, -100, 0)
     } else if (shootDirection == 3) {
         projectile = sprites.createProjectileFromSprite(img`
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
+            1 . . . . . . . . . . . . . . 1 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            1 . . . . . . . . . . . . . . 1 
             `, Steve, 0, -100)
     } else if (shootDirection == 4) {
         projectile = sprites.createProjectileFromSprite(img`
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
-            1 1 . . . . . . . . . . . . 1 1 
+            1 . . . . . . . . . . . . . . 1 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            1 . . . . . . . . . . . . . . 1 
             `, Steve, 0, 100)
     } else {
     	
@@ -95,25 +209,161 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     pause(300)
     sprites.destroy(projectile)
 })
+controller.down.onEvent(ControllerButtonEvent.Released, function () {
+    animation.runImageAnimation(
+    Steve,
+    [img`
+        ....eeeeeeee....
+        ....eeeeeeee....
+        ....eddeeeee....
+        ....eddddddd....
+        ....d1fddf1d....
+        ....dddddddd....
+        ....ddeddedd....
+        ....ddeeeedd....
+        6666666666666666
+        6666666666666666
+        dddd66666666dddd
+        dddd66666666dddd
+        dddd66666666dddd
+        dddd66666666dddd
+        dddd66666666dddd
+        dddd66666666dddd
+        dddd66666666dddd
+        dddd66666666dddd
+        dddd66666666dddd
+        bbbb66666666bbbb
+        ....86666666....
+        ....88666666....
+        ....88888888....
+        ....88888888....
+        ....88888888....
+        ....88888888....
+        ....88888888....
+        ....88888888....
+        ....88888888....
+        ....88888888....
+        ....bccbbccb....
+        ....bbbbbbbb....
+        `],
+    500,
+    false
+    )
+    shootDirection = 4
+})
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     shootDirection = 2
+})
+controller.combos.attachCombo("up up", function () {
+    if (tiles.tileAtLocationEquals(location, assets.tile`transparency16`) || tiles.tileAtLocationEquals(location, assets.tile`myTile8`) || tiles.tileAtLocationEquals(location, assets.tile`myTile13`)) {
+        tiles.setTileAt(location, assets.tile`myTile0`)
+        tiles.setWallAt(location, false)
+    }
 })
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     shootDirection = 1
 })
+scene.onOverlapTile(SpriteKind.Projectile, assets.tile`myTile0`, function (sprite, location) {
+    info.changeScoreBy(1)
+    tiles.setTileAt(location, assets.tile`transparency16`)
+    tiles.setWallAt(location, false)
+})
+sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Player, function (sprite, otherSprite) {
+    info.changeLifeBy(-1)
+    sprites.destroy(sprite)
+})
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
+    animation.runImageAnimation(
+    Steve,
+    [img`
+        ....eeeeeeee....
+        ....eeeeeeee....
+        ....eddeeeee....
+        ....eddddddd....
+        ....d1fddf1d....
+        ....dddddddd....
+        ....ddeddedd....
+        ....ddeeeedd....
+        6666666666666666
+        6666666666666666
+        dddd66666666dddd
+        dddd66666666dddd
+        dddd66666666dddd
+        dddd66666666dddd
+        dddd66666666dddd
+        dddd66666666dddd
+        dddd66666666dddd
+        dddd66666666dddd
+        dddd86666666dddd
+        dddd88666666dddd
+        ....88888888....
+        ....88888888....
+        ....88888888....
+        ....bccbbccb....
+        ....bbbbbbbb....
+        `],
+    500,
+    false
+    )
     shootDirection = 4
+})
+info.onLifeZero(function () {
+    info.setLife(3)
+})
+info.onScore(50, function () {
+    info.changeLifeBy(1)
+    info.changeScoreBy(-50)
 })
 scene.onHitWall(SpriteKind.Projectile, function (sprite, location) {
     info.changeScoreBy(1)
     tiles.setTileAt(location, assets.tile`transparency16`)
     tiles.setWallAt(location, false)
 })
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile10`, function (sprite, location) {
+    tiles.placeOnRandomTile(Steve, assets.tile`myTile12`)
+})
+controller.combos.attachCombo("up down", function () {
+    if (tiles.tileAtLocationEquals(location, assets.tile`transparency16`) || tiles.tileAtLocationEquals(location, assets.tile`myTile8`) || tiles.tileAtLocationEquals(location, assets.tile`myTile13`)) {
+        tiles.setTileAt(location, assets.tile`myTile0`)
+        tiles.setWallAt(location, true)
+    }
+})
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
+    info.changeScoreBy(10)
+    sprites.destroy(otherSprite)
+})
 let projectile: Sprite = null
 let location: tiles.Location = null
 let shootDirection = 0
 let Steve: Sprite = null
+info.setLife(10)
 info.setScore(0)
+let lizard = sprites.create(img`
+    ........................
+    ........................
+    ...........ccc..........
+    ...........cccc.........
+    .......ccc..ccccccc.....
+    .......cccccc555555cc...
+    ........ccb5555555555c..
+    .....cc..b555555555555c.
+    .....cccb555555ff155555c
+    ......cb55555555ff55d55c
+    ......b5555555555555555c
+    ...cc.b555dd5555bb13bbc.
+    ...cccd55ddddd555b3335c.
+    .....bdddddddddd55b335c.
+    ..cccdddddb55bbddd5555c.
+    ..cccdddddb555bbbbcccc..
+    ...ccddddddb5555cbcdc...
+    ccccbdddddd5cb55cbcc....
+    cddddddddd5555ccbbc.....
+    .cddddddbdd555bbbcc.....
+    ..ccdddbbbdd55cbcdc.....
+    ....ccbbcbddddccdddcc...
+    ......cccdd555dcccccc...
+    ........cccccccc........
+    `, SpriteKind.Enemy)
 Steve = sprites.create(img`
     ....eeeeeeee....
     ....eeeeeeee....
@@ -136,7 +386,7 @@ Steve = sprites.create(img`
     dddd66666666dddd
     dddd66666666dddd
     dddd86666666dddd
-    dddd88666666dddd
+    bbbb88666666bbbb
     ....88888888....
     ....88888888....
     ....88888888....
@@ -145,9 +395,10 @@ Steve = sprites.create(img`
     ....88888888....
     ....88888888....
     ....88888888....
-    ....88888888....
-    ....88888888....
+    ....bccbbccb....
+    ....bbbbbbbb....
     `, SpriteKind.Player)
+lizard.ay = 300
 controller.moveSprite(Steve, 100, 0)
 scene.setBackgroundImage(img`
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
