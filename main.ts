@@ -585,6 +585,12 @@ controller.combos.attachCombo("up up", function () {
         tiles.setWallAt(location, false)
     }
 })
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile29`, function (sprite, location) {
+    tiles.setTileAt(location, assets.tile`transparency16`)
+    for (let value of tiles.getTilesByType(assets.tile`myTile29`)) {
+        tiles.placeOnTile(Piglin, value)
+    }
+})
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile21`, function (sprite, location) {
     tiles.setTileAt(location, assets.tile`transparency16`)
     for (let value of tiles.getTilesByType(assets.tile`myTile22`)) {
@@ -681,12 +687,14 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile28`, function (sprite, 
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     sprites.destroy(otherSprite)
+    tiles.placeOnTile(Piglin, tiles.getTileLocation(Steve.x + 10, Steve.y + 5))
     info.changeLifeBy(-1)
 })
 let projectile: Sprite = null
 let location: tiles.Location = null
 let shootDirection = 0
 let warden: Sprite = null
+let Piglin: Sprite = null
 let Steve: Sprite = null
 info.setLife(10)
 info.setScore(0)
@@ -725,6 +733,40 @@ Steve = sprites.create(img`
     ....bccbbccb....
     ....bbbbbbbb....
     `, SpriteKind.Player)
+Piglin = sprites.create(img`
+    ....d7dddddd....
+    ....dd77dddd....
+    ....ddd7dddd....
+    ....ffdd7dff....
+    ....dddd77dd....
+    ....ddddd7dd....
+    ....ddd7777d....
+    ....dd77d77d....
+    3333777777333333
+    3333777773333333
+    3333111773373333
+    3333777773733333
+    3333111773733333
+    3333777773733333
+    333311d333333333
+    3333777333333333
+    3333111333333333
+    3337777333337333
+    3377113333337733
+    7777373333337777
+    7777eeeeeeee7777
+    7737eeeeeeee7377
+    ....eeeeeeee....
+    ....eeeeeeee....
+    ....71177117....
+    ....71377317....
+    ....13773731....
+    ....37773373....
+    ....77733377....
+    ....73733737....
+    ....e3e77e3e....
+    ....e3e33e3e....
+    `, SpriteKind.Enemy)
 warden = sprites.create(img`
     ....8....66666666666666.....8...
     ....888..66666666666666...988...
@@ -772,8 +814,10 @@ tiles.setCurrentTilemap(tilemap`level2`)
 scene.cameraFollowSprite(Steve)
 tiles.placeOnRandomTile(warden, assets.tile`myTile19`)
 warden.follow(Steve, 80)
+Piglin.follow(Steve, 80)
 Steve.ay = 300
 warden.ay = 100000
+Piglin.ay = 100000
 shootDirection = 1
 forever(function () {
     pause(50000)
