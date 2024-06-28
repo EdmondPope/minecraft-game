@@ -1,3 +1,10 @@
+namespace SpriteKind {
+    export const warden = SpriteKind.create()
+}
+sprites.onOverlap(SpriteKind.warden, SpriteKind.Projectile, function (sprite, otherSprite) {
+    info.changeLifeBy(2)
+    sprites.destroy(sprite)
+})
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     shootDirection = 3
     if (Steve.vy == 0) {
@@ -17,6 +24,9 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
         tiles.setTileAt(location, assets.tile`myTile8`)
         tiles.setWallAt(location, true)
     }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile24`, function (sprite, location) {
+    info.changeLifeBy(-1)
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (shootDirection == 1) {
@@ -563,6 +573,9 @@ controller.down.onEvent(ControllerButtonEvent.Released, function () {
     )
     shootDirection = 4
 })
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile25`, function (sprite, location) {
+    info.changeLifeBy(-1)
+})
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     shootDirection = 2
 })
@@ -570,6 +583,12 @@ controller.combos.attachCombo("up up", function () {
     if (tiles.tileAtLocationEquals(location, assets.tile`transparency16`) || tiles.tileAtLocationEquals(location, assets.tile`myTile8`) || tiles.tileAtLocationEquals(location, assets.tile`myTile13`)) {
         tiles.setTileAt(location, assets.tile`myTile0`)
         tiles.setWallAt(location, false)
+    }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile21`, function (sprite, location) {
+    tiles.setTileAt(location, assets.tile`transparency16`)
+    for (let value of tiles.getTilesByType(assets.tile`myTile22`)) {
+        tiles.placeOnRandomTile(warden, assets.tile`myTile22`)
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile16`, function (sprite, location) {
@@ -645,6 +664,10 @@ controller.combos.attachCombo("up down", function () {
         tiles.setWallAt(location, true)
     }
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.warden, function (sprite, otherSprite) {
+    info.changeLifeBy(-4)
+    sprites.destroy(otherSprite)
+})
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     info.changeScoreBy(10)
     sprites.destroy(otherSprite)
@@ -653,6 +676,9 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile14`, function (sprite, 
     info.changeLifeBy(-1)
     tiles.setTileAt(location, assets.tile`transparency16`)
 })
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile28`, function (sprite, location) {
+    tiles.placeOnRandomTile(Steve, assets.tile`myTile26`)
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     sprites.destroy(otherSprite)
     info.changeLifeBy(-1)
@@ -660,6 +686,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
 let projectile: Sprite = null
 let location: tiles.Location = null
 let shootDirection = 0
+let warden: Sprite = null
 let Steve: Sprite = null
 info.setLife(10)
 info.setScore(0)
@@ -698,7 +725,7 @@ Steve = sprites.create(img`
     ....bccbbccb....
     ....bbbbbbbb....
     `, SpriteKind.Player)
-let warden = sprites.create(img`
+warden = sprites.create(img`
     ....8....66666666666666.....8...
     ....888..66666666666666...988...
     ......898666666666666668888.....
@@ -739,12 +766,14 @@ let warden = sprites.create(img`
     dddddddd88888888888866888ddddddd
     ........888ddddddddddd988.......
     ........ddddddddddddddddd.......
-    `, SpriteKind.Player)
+    `, SpriteKind.warden)
 controller.moveSprite(Steve, 100, 0)
 tiles.setCurrentTilemap(tilemap`level2`)
 scene.cameraFollowSprite(Steve)
+tiles.placeOnRandomTile(warden, assets.tile`myTile19`)
+warden.follow(Steve, 80)
 Steve.ay = 300
-warden.ay = 300
+warden.ay = 100000
 shootDirection = 1
 forever(function () {
     pause(50000)
